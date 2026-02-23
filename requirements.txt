@@ -1,0 +1,23 @@
+# Manipulação de dados
+pandas
+numpy
+
+# Machine Learning
+scikit-learn
+
+# Conexão com SQL Server
+pyodbc
+sqlalchemy
+
+# Variáveis de ambiente
+python-dotenv
+
+# Visualização (nos notebooks)
+matplotlib
+seaborn
+
+# Aplicação web (fase final)
+streamlit
+
+# Chatbot com IA (fase final)
+openai
