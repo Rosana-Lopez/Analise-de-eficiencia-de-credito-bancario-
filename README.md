@@ -19,57 +19,57 @@ Instituições financeiras enfrentam desafios no processo de concessão de créd
 Um sistema integrado que combina Machine Learning para classificação de risco com simulação operacional para identificar gargalos e otimizar a alocação de recursos.
 
 ## Arquitetura do Sistema
-```
-                         FLUXO DO SISTEMA
-                         
-    Cliente solicita crédito
-              |
-              v
-    +---------------------+
-    |   MODELO DE ML      |  Prevê probabilidade de inadimplência
-    |   (classificação)   |
-    +---------------------+
-              |
-              v
-    +---------------------+
-    |  SISTEMA DE DECISÃO |  Aplica regras baseadas no risco
-    +---------------------+
-              |
-       +------+------+
-       |      |      |
-       v      v      v
-   +------+ +------+ +------+
-   |APROVA| |MANUAL| |REPROVA|
-   | AUTO | |      | | AUTO  |
-   +------+ +------+ +------+
-              |
-              v
-    +---------------------+
-    |    PRIORIZAÇÃO      |  Ordena fila por valor/perfil
-    |    DA FILA          |
-    +---------------------+
-              |
-              v
-    +---------------------+
-    |     SIMULAÇÃO       |  Calcula backlog, tempo de espera,
-    |    OPERACIONAL      |  gargalos, capacidade de analistas
-    +---------------------+
-              |
-              v
-    +---------------------+
-    |     POWER BI        |  Dashboard com KPIs operacionais
-    +---------------------+
-              |
-              v
-    +---------------------+
-    |  STREAMLIT + CHAT   |  Interface web com chatbot IA
-    +---------------------+
-```
+                     FLUXO DO SISTEMA
+                     
+Cliente solicita crédito
+          |
+          v
++---------------------+
+|   MODELO DE ML      |  Prevê probabilidade de inadimplência
+|   (classificação)   |
++---------------------+
+          |
+          v
++---------------------+
+|  SISTEMA DE DECISÃO |  Aplica regras baseadas no risco
++---------------------+
+          |
+   +------+------+
+   |      |      |
+   v      v      v
++------+ +------+ +------+
+|APROVA| |MANUAL| |REPROVA|
+| AUTO | |      | | AUTO  |
++------+ +------+ +------+
+|
+v
++---------------------+
+|    PRIORIZAÇÃO      |  Ordena fila por valor/perfil
+|    DA FILA          |
++---------------------+
+|
+v
++---------------------+
+|     SIMULAÇÃO       |  Calcula backlog, tempo de espera,
+|    OPERACIONAL      |  gargalos, capacidade de analistas
++---------------------+
+|
+v
++---------------------+
+|     POWER BI        |  Dashboard com KPIs operacionais
++---------------------+
+|
+v
++---------------------+
+|  STREAMLIT + CHAT   |  Interface web com chatbot IA
++---------------------+
 
 ## Componentes
 
 | Componente | Descrição | Status |
 |------------|-----------|--------|
+| Infraestrutura | Ambiente, banco de dados, estrutura do projeto | Concluido |
+| Geração de Dados | Dados simulados inseridos no SQL Server | Concluido |
 | Modelo de ML | Classificação de risco de inadimplência | Em desenvolvimento |
 | Sistema de Decisão | Regras para aprovação/reprovação automática | Pendente |
 | Priorização de Fila | Ordenação de análises manuais por criticidade | Pendente |
@@ -87,7 +87,6 @@ Um sistema integrado que combina Machine Learning para classificação de risco 
 - **Chatbot:** OpenAI API
 
 ## Estrutura do Projeto
-```
 eficiencia-operacional-bancaria/
 |
 ├── notebooks/          # Desenvolvimento e análises
@@ -101,7 +100,6 @@ eficiencia-operacional-bancaria/
 ├── .gitignore          # Arquivos ignorados pelo Git
 ├── README.md           # Este arquivo
 └── requirements.txt    # Dependências Python
-```
 
 ## Como Executar
 
@@ -156,14 +154,14 @@ Os dados utilizados neste projeto são simulados para fins educacionais e de dem
 | qtd_emprestimos_ativos | Empréstimos ativos |
 | historico_inadimplencia | Histórico de inadimplência |
 | tipo_credito | Pessoal ou consignado |
-| inadimplente | Target: cliente não pagou |
+| inadimplente | Variável alvo do modelo de ML |
 
 ## Roadmap
 
 - [x] Configuração inicial do projeto
 - [x] Estrutura de pastas e versionamento
 - [x] Conexão com SQL Server
-- [ ] Geração de dados simulados
+- [x] Geração de dados simulados
 - [ ] Treinamento do modelo de ML
 - [ ] Sistema de decisão automática
 - [ ] Sistema de priorização
