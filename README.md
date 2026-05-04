@@ -19,57 +19,64 @@ Instituições financeiras enfrentam desafios no processo de concessão de créd
 Um sistema integrado que combina Machine Learning para classificação de risco com simulação operacional para identificar gargalos e otimizar a alocação de recursos.
 
 ## Arquitetura do Sistema
-                     FLUXO DO SISTEMA
-                     
+
+```
 Cliente solicita crédito
           |
           v
-+---------------------+
-|   MODELO DE ML      |  Prevê probabilidade de inadimplência
-|   (classificação)   |
-+---------------------+
++-------------------------+
+|      MODELO DE ML       |
+|  Prevê inadimplência    |
++-------------------------+
           |
           v
-+---------------------+
-|  SISTEMA DE DECISÃO |  Aplica regras baseadas no risco
-+---------------------+
++-------------------------+
+|   SISTEMA DE DECISÃO    |
+|  Regras baseadas no     |
+|       risco             |
++-------------------------+
           |
-   +------+------+
-   |      |      |
-   v      v      v
-+------+ +------+ +------+
-|APROVA| |MANUAL| |REPROVA|
-| AUTO | |      | | AUTO  |
-+------+ +------+ +------+
-|
-v
-+---------------------+
-|    PRIORIZAÇÃO      |  Ordena fila por valor/perfil
-|    DA FILA          |
-+---------------------+
-|
-v
-+---------------------+
-|     SIMULAÇÃO       |  Calcula backlog, tempo de espera,
-|    OPERACIONAL      |  gargalos, capacidade de analistas
-+---------------------+
-|
-v
-+---------------------+
-|     POWER BI        |  Dashboard com KPIs operacionais
-+---------------------+
-|
-v
-+---------------------+
-|  STREAMLIT + CHAT   |  Interface web com chatbot IA
-+---------------------+
+    +-----+-----+
+    |     |     |
+    v     v     v
++-------+-------+--------+
+| BAIXO | MÉDIO |  ALTO  |
+| AUTO  |MANUAL | RECUSA |
++-------+-------+--------+
+          |
+          v
++-------------------------+
+|     PRIORIZAÇÃO         |
+|  Ordena fila por        |
+|    valor/perfil         |
++-------------------------+
+          |
+          v
++-------------------------+
+|  SIMULAÇÃO OPERACIONAL  |
+|  Backlog, tempo de      |
+|  espera, gargalos       |
++-------------------------+
+          |
+          v
++-------------------------+
+|       POWER BI          |
+|  Dashboard KPIs         |
++-------------------------+
+          |
+          v
++-------------------------+
+|   STREAMLIT + CHATBOT   |
+|  Interface web com IA   |
++-------------------------+
+```
 
 ## Componentes
 
 | Componente | Descrição | Status |
-|------------|-----------|--------|
-| Infraestrutura | Ambiente, banco de dados, estrutura do projeto | Concluido |
-| Geração de Dados | Dados simulados inseridos no SQL Server | Concluido |
+|---|---|---|
+| Infraestrutura | Ambiente, banco de dados, estrutura do projeto | Concluído |
+| Geração de Dados | Dados simulados inseridos no SQL Server | Concluído |
 | Modelo de ML | Classificação de risco de inadimplência | Em desenvolvimento |
 | Sistema de Decisão | Regras para aprovação/reprovação automática | Pendente |
 | Priorização de Fila | Ordenação de análises manuais por criticidade | Pendente |
@@ -87,19 +94,21 @@ v
 - **Chatbot:** OpenAI API
 
 ## Estrutura do Projeto
+
+```
 eficiencia-operacional-bancaria/
 |
-├── notebooks/          # Desenvolvimento e análises
-├── data/               # Dados gerados
-├── src/                # Código fonte (quando necessário)
-├── app/                # Aplicação Streamlit
-├── sql/                # Scripts SQL
-|
-├── .env                # Variáveis de ambiente (não versionado)
-├── .env.example        # Exemplo de configuração
-├── .gitignore          # Arquivos ignorados pelo Git
-├── README.md           # Este arquivo
-└── requirements.txt    # Dependências Python
+├── notebooks/       # Desenvolvimento e análises
+├── data/            # Dados gerados
+├── src/             # Código fonte
+├── app/             # Aplicação Streamlit
+├── sql/             # Scripts SQL
+├── .env             # Variáveis de ambiente (não versionado)
+├── .env.example     # Exemplo de configuração
+├── .gitignore       # Arquivos ignorados pelo Git
+├── README.md        # Este arquivo
+└── requirements.txt # Dependências Python
+```
 
 ## Como Executar
 
@@ -111,43 +120,44 @@ eficiencia-operacional-bancaria/
 
 ### Instalação
 
-1. Clone o repositório
+**1. Clone o repositório**
+
 ```bash
 git clone https://github.com/Rosana-Lopez/Analise-de-eficiencia-de-credito-bancario-.git
 cd Analise-de-eficiencia-de-credito-bancario-
 ```
 
-2. Instale as dependências
+**2. Instale as dependências**
+
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Configure as variáveis de ambiente
+**3. Configure as variáveis de ambiente**
+
 ```bash
 cp .env.example .env
-# Edite o arquivo .env com suas configurações
 ```
 
-4. Crie o banco de dados no SQL Server
+**4. Crie o banco de dados no SQL Server**
+
 ```sql
 CREATE DATABASE CreditoOperacional;
 ```
 
-5. Execute os notebooks na ordem numérica
+**5. Execute os notebooks na ordem numérica**
 
 ## Dados
 
-Os dados utilizados neste projeto são simulados para fins educacionais e de demonstração. A estrutura foi modelada para refletir cenários reais de concessão de crédito.
-
-### Variáveis do Dataset
+Os dados utilizados neste projeto são simulados para fins educacionais. A estrutura foi modelada para refletir cenários reais de concessão de crédito, com classificação de risco baseada em múltiplos fatores.
 
 | Variável | Descrição |
-|----------|-----------|
+|---|---|
 | idade | Idade do cliente |
 | renda_mensal | Renda mensal declarada |
 | valor_solicitado | Valor do empréstimo |
 | prazo_meses | Prazo de pagamento |
-| score_credito | Score de crédito (0-1000) |
+| score_credito | Pontuação de crédito (0-1000) |
 | tem_imovel | Possui imóvel próprio |
 | tem_veiculo | Possui veículo |
 | tempo_emprego_anos | Tempo no emprego atual |
@@ -172,4 +182,4 @@ Os dados utilizados neste projeto são simulados para fins educacionais e de dem
 
 ## Autor
 
-Desenvolvido como projeto de portfólio para demonstração de competências em Data Science e Engenharia de Dados.
+Rosana Lopez — Estudante de Ciência de Dados desenvolvendo competências em Engenharia de Dados, Machine Learning e Business Intelligence.
