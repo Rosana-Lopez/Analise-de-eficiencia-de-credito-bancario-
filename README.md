@@ -28,6 +28,7 @@ Um sistema integrado que combina Machine Learning para classificação de risco 
 | Total de perdas | R$52,1 milhões | R$4,3 milhões | 92% |
 
 ## Arquitetura do Sistema
+```
 Cliente solicita crédito
 |
 v
@@ -75,6 +76,7 @@ v
 |   STREAMLIT + CHATBOT   |
 |  Interface web com IA   |
 +-------------------------+
+```
 
 ## Componentes
 
@@ -99,8 +101,9 @@ v
 - **Chatbot:** Anthropic API
 
 ## Estrutura do Projeto
+
+```
 eficiencia-operacional-bancaria/
-|
 ├── notebooks/
 │   ├── 01_contexto_e_geracao_dados.ipynb
 │   ├── 02_geracao_dados.ipynb
@@ -118,6 +121,7 @@ eficiencia-operacional-bancaria/
 ├── .gitignore
 ├── README.md
 └── requirements.txt
+```
 
 ## Como Executar
 
