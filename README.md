@@ -35,6 +35,7 @@ Um sistema integrado que combina Machine Learning para classificação de risco 
 
 
 '''
+
 ## Arquitetura do Sistema
 Cliente solicita crédito
 |
@@ -83,11 +84,11 @@ v
 |   STREAMLIT + CHATBOT   |
 |  Interface web com IA   |
 +-------------------------+
+
 '''
 
 
 ## Componentes
-
 | Componente | Descrição | Status |
 |---|---|---|
 | Infraestrutura | Ambiente, banco de dados, estrutura do projeto | Concluído |
@@ -119,6 +120,7 @@ v
 
 
 '''
+
 ## Estrutura do Projeto
 eficiencia-operacional-bancaria/
 ├── notebooks/
@@ -138,6 +140,7 @@ eficiencia-operacional-bancaria/
 ├── .gitignore
 ├── README.md
 └── requirements.txt
+
 '''
 
 
