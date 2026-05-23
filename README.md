@@ -101,7 +101,6 @@ Cliente solicita crédito
 | Simulação Operacional | Comparativo manual vs automatizado com impacto financeiro | Concluído |
 | Dashboard React | Visualização de KPIs operacionais | Concluído |
 | Aplicativo Web | Interface Streamlit com chatbot | Em desenvolvimento |
-
 ---
 
 ## Stack Tecnológica
