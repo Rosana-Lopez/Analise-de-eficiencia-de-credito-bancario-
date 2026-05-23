@@ -33,8 +33,8 @@ Um sistema integrado que combina Machine Learning para classificação de risco 
 | Clientes perdidos | 3.080 | 47 | **98%** |
 | Perdas financeiras | R$ 52,1 milhões | R$ 4,3 milhões | **92%** |
 
----
 
+'''
 ## Arquitetura do Sistema
 Cliente solicita crédito
 |
@@ -83,21 +83,21 @@ v
 |   STREAMLIT + CHATBOT   |
 |  Interface web com IA   |
 +-------------------------+
+'''
 
----
 
 ## Componentes
 
 | Componente | Descrição | Status |
 |---|---|---|
-| Infraestrutura | Ambiente, banco de dados, estrutura do projeto | ✅ Concluído |
-| Geração de Dados | 5.000 clientes simulados com perfis correlacionados | ✅ Concluído |
-| Modelo de ML | Random Forest com recall de 69% para inadimplentes | ✅ Concluído |
-| Sistema de Decisão | Hard Rules + Score ML com faixas de aprovação | ✅ Concluído |
-| Priorização de Fila | Fila inteligente com semáforo e pontuação de prioridade | ✅ Concluído |
-| Simulação Operacional | Comparativo manual vs automatizado com impacto financeiro | ✅ Concluído |
-| Dashboard React | Visualização de KPIs operacionais | ✅ Concluído |
-| Aplicativo Web | Interface Streamlit com chatbot | 🔄 Em desenvolvimento |
+| Infraestrutura | Ambiente, banco de dados, estrutura do projeto | Concluído |
+| Geração de Dados | 5.000 clientes simulados com perfis correlacionados | Concluído |
+| Modelo de ML | Random Forest com recall de 69% para inadimplentes | Concluído |
+| Sistema de Decisão | Hard Rules + Score ML com faixas de aprovação | Concluído |
+| Priorização de Fila | Fila inteligente com semáforo e pontuação de prioridade | Concluído |
+| Simulação Operacional | Comparativo manual vs automatizado com impacto financeiro | Concluído |
+| Dashboard React | Visualização de KPIs operacionais | Concluído |
+| Aplicativo Web | Interface Streamlit com chatbot | Em desenvolvimento |
 
 ---
 
@@ -117,8 +117,8 @@ v
 **Aplicativo Web:** Streamlit  
 **Chatbot:** Google Gemini API  
 
----
 
+'''
 ## Estrutura do Projeto
 eficiencia-operacional-bancaria/
 ├── notebooks/
@@ -138,8 +138,8 @@ eficiencia-operacional-bancaria/
 ├── .gitignore
 ├── README.md
 └── requirements.txt
+'''
 
----
 
 ## Como Executar
 
