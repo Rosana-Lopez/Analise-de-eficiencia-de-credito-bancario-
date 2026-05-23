@@ -33,62 +33,64 @@ Um sistema integrado que combina Machine Learning para classificação de risco 
 | Clientes perdidos | 3.080 | 47 | **98%** |
 | Perdas financeiras | R$ 52,1 milhões | R$ 4,3 milhões | **92%** |
 
-
-'''
+---
 
 ## Arquitetura do Sistema
+
+```
 Cliente solicita crédito
-|
-v
+        |
+        v
 +-------------------------+
 |      MODELO DE ML       |
-|  Prevê inadimplência    |
+|  Preve inadimplencia    |
 +-------------------------+
-|
-v
+        |
+        v
 +-------------------------+
-|   SISTEMA DE DECISÃO    |
+|   SISTEMA DE DECISAO    |
 |  Hard Rules + Score ML  |
 +-------------------------+
-|
-+----+----+
-|    |    |
-v    v    v
+        |
+   +----+----+
+   |    |    |
+   v    v    v
 +------+-------+-------+
-| BAIXO| MÉDIO |  ALTO |
+| BAIXO| MEDIO |  ALTO |
 | AUTO |MANUAL |RECUSA |
 +------+-------+-------+
-|
-v
+        |
+        v
 +-------------------------+
-|     PRIORIZAÇÃO         |
+|     PRIORIZACAO         |
 |  Fila inteligente por   |
 |    perfil e prazo       |
 +-------------------------+
-|
-v
+        |
+        v
 +-------------------------+
-|  SIMULAÇÃO OPERACIONAL  |
+|  SIMULACAO OPERACIONAL  |
 |  Comparativo manual vs  |
 |      automatizado       |
 +-------------------------+
-|
-v
+        |
+        v
 +-------------------------+
 |   DASHBOARD REACT       |
-|  Visualização de KPIs   |
+|  Visualizacao de KPIs   |
 +-------------------------+
-|
-v
+        |
+        v
 +-------------------------+
 |   STREAMLIT + CHATBOT   |
 |  Interface web com IA   |
 +-------------------------+
+```
 
-'''
-
+---
 
 ## Componentes
+
 | Componente | Descrição | Status |
 |---|---|---|
 | Infraestrutura | Ambiente, banco de dados, estrutura do projeto | Concluído |
@@ -111,17 +113,18 @@ v
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 
-**Linguagem:** Python 3.10+  
-**Banco de Dados:** SQL Server  
-**Machine Learning:** scikit-learn, imbalanced-learn  
-**Visualização:** React + Vite, matplotlib, seaborn  
-**Aplicativo Web:** Streamlit  
-**Chatbot:** Google Gemini API  
+**Linguagem:** Python 3.10+
+**Banco de Dados:** SQL Server
+**Machine Learning:** scikit-learn, imbalanced-learn
+**Visualização:** React + Vite, matplotlib, seaborn
+**Aplicativo Web:** Streamlit
+**Chatbot:** Google Gemini API
 
-
-'''
+---
 
 ## Estrutura do Projeto
+
+```
 eficiencia-operacional-bancaria/
 ├── notebooks/
 │   ├── 01_contexto_e_geracao_dados.ipynb
@@ -140,9 +143,9 @@ eficiencia-operacional-bancaria/
 ├── .gitignore
 ├── README.md
 └── requirements.txt
+```
 
-'''
-
+---
 
 ## Como Executar
 
@@ -154,20 +157,10 @@ eficiencia-operacional-bancaria/
 **Instalação**
 
 ```bash
-# Clonar o repositório
 git clone https://github.com/Rosana-Lopez/Analise-de-eficiencia-de-credito-bancario-.git
 cd Analise-de-eficiencia-de-credito-bancario-
-
-# Instalar dependências
 pip install -r requirements.txt
-
-# Configurar variáveis de ambiente
 cp .env.example .env
-
-# Criar o banco de dados no SQL Server
-CREATE DATABASE CreditoOperacional;
-
-# Executar os notebooks na ordem numérica
 ```
 
 ---
@@ -182,7 +175,7 @@ Os dados utilizados neste projeto são simulados para fins educacionais, gerados
 | Intermediário | 1.250 (25%) | 30% |
 | Risco | 1.000 (20%) | 75% |
 
----
+´´´
 
 ## Variáveis do Conjunto de Dados
 
@@ -201,7 +194,7 @@ Os dados utilizados neste projeto são simulados para fins educacionais, gerados
 | possui_restricao | Restrição ativa no nome |
 | inadimplente | Variável alvo do modelo de ML |
 
----
+´´´
 
 ## Roteiro
 
