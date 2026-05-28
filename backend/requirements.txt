@@ -3,4 +3,4 @@ uvicorn
 pyodbc
 sqlalchemy
 python-dotenv
-google-generativeai
+google-genai

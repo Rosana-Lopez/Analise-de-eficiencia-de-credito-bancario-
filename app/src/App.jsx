@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MessageCircle, Send, Users, AlertTriangle, Clock, DollarSign, TrendingDown, X, Bot, CheckCircle, XCircle, Search, Zap, Brain, ArrowRight } from 'lucide-react';
-import { api } from './api';
+import { api } from './api'; 
+import ReactMarkdown from 'react-markdown';
 
 const Gauge = ({ value, max, sublabel, color, percentage }) => {
   const radius = 70;
@@ -8,12 +9,12 @@ const Gauge = ({ value, max, sublabel, color, percentage }) => {
   const circumference = Math.PI * radius;
   const fillPercentage = Math.min((value / max) * 100, 100);
   const strokeDashoffset = circumference - (fillPercentage / 100) * circumference;
-  
+
   return (
     <div className="flex flex-col items-center justify-center p-2">
       <svg width="180" height="100" viewBox="0 0 180 100">
-        <path d="M 20 90 A 70 70 0 0 1 160 90" fill="none" stroke="#2D3A4A" strokeWidth={strokeWidth} strokeLinecap="round"/>
-        <path d="M 20 90 A 70 70 0 0 1 160 90" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} style={{ transition: 'stroke-dashoffset 1s ease-out' }}/>
+        <path d="M 20 90 A 70 70 0 0 1 160 90" fill="none" stroke="#2D3A4A" strokeWidth={strokeWidth} strokeLinecap="round" />
+        <path d="M 20 90 A 70 70 0 0 1 160 90" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} style={{ transition: 'stroke-dashoffset 1s ease-out' }} />
         <text x="90" y="65" textAnchor="middle" fill={color} fontSize="26" fontWeight="600">{typeof value === 'number' ? value.toLocaleString('pt-BR') : value}</text>
         <text x="90" y="85" textAnchor="middle" fill="#8892A0" fontSize="11">{sublabel}</text>
       </svg>
@@ -90,7 +91,7 @@ const DecisionDistribution = () => {
     { label: 'Negado Automatico', value: 33.5, count: 1676, color: '#EF4444' },
     { label: 'Analise Manual', value: 6.4, count: 318, color: '#F59E0B' },
   ];
-  
+
   return (
     <div className="rounded-xl p-5" style={{ backgroundColor: '#1E2A38' }}>
       <h3 className="text-white font-semibold mb-4">Distribuicao das Decisoes</h3>
@@ -123,7 +124,7 @@ const LossesBar = ({ isComparison = false }) => {
       { label: 'Credito nao convertido', before: 19.5, after: 0.8, color: '#FF6B6B' },
       { label: 'Custo operacional', before: 8.1, after: 0.3, color: '#FF9F43' },
     ];
-    
+
     return (
       <div className="rounded-xl p-5" style={{ backgroundColor: '#1E2A38' }}>
         <h3 className="text-white font-semibold mb-4">Reducao de Perdas Financeiras</h3>
@@ -132,7 +133,7 @@ const LossesBar = ({ isComparison = false }) => {
             <div key={i}>
               <div className="flex justify-between mb-1">
                 <span className="text-sm text-white">{loss.label}</span>
-                <span className="text-sm" style={{ color: '#10B981' }}>-{Math.round((1 - loss.after/loss.before) * 100)}%</span>
+                <span className="text-sm" style={{ color: '#10B981' }}>-{Math.round((1 - loss.after / loss.before) * 100)}%</span>
               </div>
               <div className="flex gap-2 items-center">
                 <div className="flex-1 h-3 rounded-full" style={{ backgroundColor: '#2D3A4A' }}>
@@ -142,7 +143,7 @@ const LossesBar = ({ isComparison = false }) => {
               </div>
               <div className="flex gap-2 items-center mt-1">
                 <div className="flex-1 h-3 rounded-full" style={{ backgroundColor: '#2D3A4A' }}>
-                  <div className="h-3 rounded-full" style={{ backgroundColor: '#10B981', width: `${(loss.after/loss.before)*100}%` }}></div>
+                  <div className="h-3 rounded-full" style={{ backgroundColor: '#10B981', width: `${(loss.after / loss.before) * 100}%` }}></div>
                 </div>
                 <span className="text-xs" style={{ color: '#10B981' }}>R${loss.after}Mi</span>
               </div>
@@ -156,13 +157,13 @@ const LossesBar = ({ isComparison = false }) => {
       </div>
     );
   }
-  
+
   const losses = [
     { label: 'Inadimplencia', value: 24.37, color: '#EA2027', width: '47%' },
     { label: 'Credito nao convertido', value: 19.5, color: '#FF6B6B', width: '37%' },
     { label: 'Custo operacional', value: 8.1, color: '#FF9F43', width: '16%' },
   ];
-  
+
   return (
     <div className="rounded-xl p-5" style={{ backgroundColor: '#1E2A38' }}>
       <h3 className="text-white font-semibold mb-1">Composicao das Perdas Financeiras</h3>
@@ -194,8 +195,8 @@ const ChatMessage = ({ message, isBot }) => (
         <Bot size={16} color="white" />
       </div>
     )}
-    <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${isBot ? 'rounded-tl-sm' : 'rounded-tr-sm'}`} style={{ backgroundColor: isBot ? '#1E2A38' : '#3B82F6', color: 'white' }}>
-      {message}
+    <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${isBot ? 'rounded-tl-sm' : 'rounded-tr-sm'}`} style={{ backgroundColor: isBot ? '#1E2A38' : '#3B82F6', color: 'white', whiteSpace: 'pre-line' }}>
+     {isBot ? <ReactMarkdown>{message}</ReactMarkdown> : message}
     </div>
   </div>
 );
@@ -302,129 +303,139 @@ export default function App() {
   const [comparativo, setComparativo] = useState(null);
   const [filaRevisao, setFilaRevisao] = useState([]);
 
-useEffect(() => {
-  api.metricas().then(setMetricas);
-  api.comparativo().then(setComparativo);
-  api.filaRevisao().then(setFilaRevisao);
-}, []);
+  useEffect(() => {
+    api.metricas().then(setMetricas);
+    api.comparativo().then(setComparativo);
+    api.filaRevisao().then(setFilaRevisao);
+  }, []);
   const [chatOpen, setChatOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { text: 'Ola! Sou o assistente de analise de credito. Como posso ajudar?', isBot: true },
-  ]);
+  const [messages, setMessages] = useState([]);
+  const [historico, setHistorico] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [chatLoading, setChatLoading] = useState(false);
 
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
-    setMessages([...messages, { text: inputValue, isBot: false }]);
+  useEffect(() => {
+    api.saudacao().then(data => {
+      setMessages([{ text: data.resposta, isBot: true }]);
+    });
+  }, []);
+
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || chatLoading) return;
+
+    const textoUsuario = inputValue;
+    setMessages(prev => [...prev, { text: textoUsuario, isBot: false }]);
     setInputValue('');
-    
-    setTimeout(() => {
-      let response = '';
-      const input = inputValue.toLowerCase();
-      if (input.includes('analista')) {
-        response = 'No cenario manual, sao necessarios 53 analistas. Com automacao, apenas 4 - reducao de 92%!';
-      } else if (input.includes('perda') || input.includes('custo') || input.includes('economia')) {
-        response = 'Perdas totais caem de R$52,1Mi para R$4,3Mi/mes. Economia de R$47,8 milhoes mensais!';
-      } else if (input.includes('cliente')) {
-        response = 'Clientes perdidos caem de 3.080 para apenas 47/mes - reducao de 98%!';
-      } else if (input.includes('tempo')) {
-        response = 'Tempo operacional cai de 1.250h para 79,5h/mes - reducao de 94%!';
-      } else if (input.includes('modelo') || input.includes('ml')) {
-        response = 'O modelo de ML tem 95% de acuracia e processa 93,6% das decisoes automaticamente.';
-      } else {
-        response = 'Posso explicar sobre: analistas, perdas, clientes, tempo ou modelo ML. O que quer saber?';
-      }
-      setMessages(prev => [...prev, { text: response, isBot: true }]);
-    }, 800);
+    setChatLoading(true);
+
+    try {
+      const data = await api.chat(textoUsuario, historico);
+
+      const novoHistorico = [
+        ...historico,
+        { role: 'user', parts: [{ text: textoUsuario }] },
+        { role: 'model', parts: [{ text: data.resposta }] },
+      ];
+      setHistorico(novoHistorico);
+      setMessages(prev => [...prev, { text: data.resposta, isBot: true }]);
+    } catch (error) {
+      setMessages(prev => [...prev, { text: 'Erro ao conectar com o assistente.', isBot: true }]);
+    } finally {
+      setChatLoading(false);
+    }
   };
 
-  const pages = [
-    { id: 'problema', label: 'Problema', color: '#FF6B6B' },
-    { id: 'solucao', label: 'Solucao', color: '#3B82F6' },
-    { id: 'resultado', label: 'Resultado', color: '#10B981' },
-  ];
+const pages = [
+  { id: 'problema', label: 'Problema', color: '#FF6B6B' },
+  { id: 'solucao', label: 'Solucao', color: '#3B82F6' },
+  { id: 'resultado', label: 'Resultado', color: '#10B981' },
+];
 
-  const pageConfig = {
-    problema: { title: 'CENARIO ATUAL: PROCESSO MANUAL', subtitle: 'Analise do processo manual de concessao de credito', color: '#FF6B6B' },
-    solucao: { title: 'SOLUCAO: AUTOMACAO INTELIGENTE', subtitle: 'Sistema de ML + Decisao Automatica + Priorizacao', color: '#3B82F6' },
-    resultado: { title: 'RESULTADO: IMPACTO DA AUTOMACAO', subtitle: 'Comparativo antes e depois da implementacao', color: '#10B981' },
-  };
+const pageConfig = {
+  problema: { title: 'CENARIO ATUAL: PROCESSO MANUAL', subtitle: 'Analise do processo manual de concessao de credito', color: '#FF6B6B' },
+  solucao: { title: 'SOLUCAO: AUTOMACAO INTELIGENTE', subtitle: 'Sistema de ML + Decisao Automatica + Priorizacao', color: '#3B82F6' },
+  resultado: { title: 'RESULTADO: IMPACTO DA AUTOMACAO', subtitle: 'Comparativo antes e depois da implementacao', color: '#10B981' },
+};
 
-  const currentPage = pageConfig[activePage];
+const currentPage = pageConfig[activePage];
 
-  return (
-    <div className="min-h-screen p-6 relative" style={{ backgroundColor: '#0D1B2A' }}>
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-2">
-          <h1 className="text-xl font-bold" style={{ color: currentPage.color }}>{currentPage.title}</h1>
-          <div className="flex gap-2">
-            {pages.map(page => (
-              <button
-                key={page.id}
-                onClick={() => setActivePage(page.id)}
-                className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
-                style={{
-                  backgroundColor: activePage === page.id ? '#1E2A38' : 'transparent',
-                  color: activePage === page.id ? page.color : '#8892A0',
-                  border: activePage === page.id ? `1px solid ${page.color}40` : '1px solid transparent',
-                }}
-              >
-                {page.label}
-              </button>
-            ))}
-          </div>
-        </div>
-        <p className="text-sm" style={{ color: '#8892A0' }}>{currentPage.subtitle}</p>
-      </div>
-
-      {activePage === 'problema' && <ProblemaPage comparativo={comparativo} />}
-      {activePage === 'resultado' && <ResultadoPage comparativo={comparativo} />}
-      {activePage === 'solucao' && <SolucaoPage metricas={metricas} />}
-
-      <button
-        onClick={() => setChatOpen(!chatOpen)}
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110"
-        style={{ backgroundColor: '#3B82F6' }}
-      >
-        {chatOpen ? <X size={24} color="white" /> : <MessageCircle size={24} color="white" />}
-      </button>
-
-      {chatOpen && (
-        <div className="fixed bottom-24 right-6 w-80 rounded-2xl shadow-2xl overflow-hidden" style={{ backgroundColor: '#0D1B2A', border: '1px solid #1E2A38' }}>
-          <div className="p-4 flex items-center gap-3" style={{ backgroundColor: '#1E2A38' }}>
-            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#3B82F6' }}>
-              <Bot size={20} color="white" />
-            </div>
-            <div>
-              <h4 className="text-white font-semibold text-sm">Assistente de Credito</h4>
-              <p className="text-xs" style={{ color: '#8892A0' }}>Online</p>
-            </div>
-          </div>
-          <div className="h-72 overflow-y-auto p-4" style={{ backgroundColor: '#0D1B2A' }}>
-            {messages.map((msg, i) => (
-              <ChatMessage key={i} message={msg.text} isBot={msg.isBot} />
-            ))}
-          </div>
-          <div className="p-3 flex gap-2" style={{ backgroundColor: '#1E2A38' }}>
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-              placeholder="Digite sua pergunta..."
-              className="flex-1 px-4 py-2 rounded-full text-sm text-white placeholder-gray-500 outline-none"
-              style={{ backgroundColor: '#0D1B2A', border: '1px solid #2D3A4A' }}
-            />
-            <button onClick={handleSendMessage} className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#3B82F6' }}>
-              <Send size={18} color="white" />
+return (
+  <div className="min-h-screen p-6 relative" style={{ backgroundColor: '#0D1B2A' }}>
+    <div className="mb-6">
+      <div className="flex items-center justify-between mb-2">
+        <h1 className="text-xl font-bold" style={{ color: currentPage.color }}>{currentPage.title}</h1>
+        <div className="flex gap-2">
+          {pages.map(page => (
+            <button
+              key={page.id}
+              onClick={() => setActivePage(page.id)}
+              className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
+              style={{
+                backgroundColor: activePage === page.id ? '#1E2A38' : 'transparent',
+                color: activePage === page.id ? page.color : '#8892A0',
+                border: activePage === page.id ? `1px solid ${page.color}40` : '1px solid transparent',
+              }}
+            >
+              {page.label}
             </button>
+          ))}
+        </div>
+      </div>
+      <p className="text-sm" style={{ color: '#8892A0' }}>{currentPage.subtitle}</p>
+    </div>
+
+    {activePage === 'problema' && <ProblemaPage comparativo={comparativo} />}
+    {activePage === 'resultado' && <ResultadoPage comparativo={comparativo} />}
+    {activePage === 'solucao' && <SolucaoPage metricas={metricas} />}
+
+    <button
+      onClick={() => setChatOpen(!chatOpen)}
+      className="fixed bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110"
+      style={{ backgroundColor: '#3B82F6' }}
+    >
+      {chatOpen ? <X size={24} color="white" /> : <MessageCircle size={24} color="white" />}
+    </button>
+
+    {chatOpen && (
+      <div className="fixed bottom-24 right-6 w-80 rounded-2xl shadow-2xl overflow-hidden" style={{ backgroundColor: '#0D1B2A', border: '1px solid #1E2A38' }}>
+        <div className="p-4 flex items-center gap-3" style={{ backgroundColor: '#1E2A38' }}>
+          <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#3B82F6' }}>
+            <Bot size={20} color="white" />
+          </div>
+          <div>
+            <h4 className="text-white font-semibold text-sm">Assistente de Credito</h4>
+            <p className="text-xs" style={{ color: '#8892A0' }}>Online</p>
           </div>
         </div>
-      )}
-
-      <div className="mt-8 pt-4 border-t border-gray-800 text-center">
-        <p className="text-xs" style={{ color: '#8892A0' }}>Dashboard de Eficiencia Operacional Bancaria</p>
+        <div className="h-72 overflow-y-auto p-4" style={{ backgroundColor: '#0D1B2A' }}>
+          {messages.map((msg, i) => (
+            <ChatMessage key={i} message={msg.text} isBot={msg.isBot} />
+          ))}
+        </div>
+        <div className="p-3 flex gap-2" style={{ backgroundColor: '#1E2A38' }}>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            placeholder="Digite sua pergunta..."
+            autoComplete="off"    
+            autoCorrect="off"     
+            autoCapitalize="off"  
+            spellCheck="false"    
+            className="flex-1 px-4 py-2 rounded-full text-sm text-white placeholder-gray-500 outline-none"
+            style={{ backgroundColor: '#0D1B2A', border: '1px solid #2D3A4A' }}
+/>
+          <button onClick={handleSendMessage} className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#3B82F6' }}>
+            <Send size={18} color="white" />
+          </button>
+        </div>
       </div>
+    )}
+
+    <div className="mt-8 pt-4 border-t border-gray-800 text-center">
+      <p className="text-xs" style={{ color: '#8892A0' }}>Dashboard de Eficiencia Operacional Bancaria</p>
     </div>
-  );
+  </div>
+);
 }
