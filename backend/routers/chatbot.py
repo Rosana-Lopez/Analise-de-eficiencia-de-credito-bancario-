@@ -65,7 +65,8 @@ MODELO DE ML: Random Forest, acurácia 82.6%"""
         contents=historico_formatado,
         config=types.GenerateContentConfig(
             system_instruction=system,
-            max_output_tokens=500
+            max_output_tokens=500,
+            temperature=0.3
         )
     )
     return {"resposta": resposta.text}

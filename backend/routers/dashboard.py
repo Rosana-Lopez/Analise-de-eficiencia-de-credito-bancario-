@@ -35,7 +35,7 @@ def get_metricas(db=Depends(get_db)):
 @router.get("/debug")
 def debug(db=Depends(get_db)):
     row = db.execute(text(
-        "SELECT TOP 1 * FROM decisoes_credito"
+        "SELECT TOP 1 * FROM decisoes_credito WHERE decisao = 'REVISAO'"
     )).fetchone()
     return dict(row._mapping)
 
