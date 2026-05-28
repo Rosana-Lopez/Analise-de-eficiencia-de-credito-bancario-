@@ -34,11 +34,10 @@ def get_metricas(db=Depends(get_db)):
 
 @router.get("/debug")
 def debug(db=Depends(get_db)):
-    row = db.execute(text(
-        "SELECT TOP 1 * FROM decisoes_credito WHERE decisao = 'REVISAO'"
-    )).fetchone()
-    return dict(row._mapping)
-
+    rows = db.execute(text(
+        "SELECT * FROM simulacao_operacional"
+    )).fetchall()
+    return [dict(r._mapping) for r in rows]
 
 @router.get("/comparativo")
 def get_comparativo():
@@ -67,9 +66,18 @@ def get_fila_revisao(db=Depends(get_db)):
             renda_mensal,
             valor_solicitado,
             probabilidade_risco,
-            motivo
-        FROM decisoes_credito
-        WHERE decisao = 'REVISAO'
-        ORDER BY valor_solicitado DESC
+            motivo,
+            pontuacao,
+            semaforo,
+            horas_espera
+        FROM fila_revisao
+        ORDER BY pontuacao DESC
     """)).fetchall()
+    return [dict(r._mapping) for r in rows]
+
+@router.get("/simulacao")
+def get_simulacao(db=Depends(get_db)):
+    rows = db.execute(text(
+        "SELECT * FROM simulacao_operacional"
+    )).fetchall()
     return [dict(r._mapping) for r in rows]

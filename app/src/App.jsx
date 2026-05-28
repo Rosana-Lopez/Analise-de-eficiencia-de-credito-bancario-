@@ -201,7 +201,7 @@ const ChatMessage = ({ message, isBot }) => (
   </div>
 );
 
-const ProblemaPage = ({ comparativo }) => (
+const ProblemaPage = ({ comparativo, simulacao }) => (
   <>
     <div className="grid grid-cols-4 gap-4 mb-6">
       <MetricCard icon={Users} value={comparativo?.manual?.analistas ?? '53'} label="Analistas Necessarios" color="#FF6B6B" iconBg="rgba(255, 107, 107, 0.2)" />
@@ -222,6 +222,7 @@ const ProblemaPage = ({ comparativo }) => (
       </div>
     </div>
     <LossesBar />
+    <FunilConversao simulacao={simulacao} />
   </>
 );;
 
@@ -297,16 +298,126 @@ const ResultadoPage = () => (
   </>
 );
 
+const FilaPage = ({ filaRevisao }) => {
+  const semaforoCor = {
+    VERMELHO: '#EF4444',
+    AMARELO: '#F59E0B',
+    VERDE: '#10B981',
+  };
+
+  return (
+    <>
+      <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="rounded-xl p-4" style={{ backgroundColor: '#1E2A38' }}>
+          <p className="text-xs mb-1" style={{ color: '#8892A0' }}>Urgentes</p>
+          <p className="text-2xl font-bold" style={{ color: '#EF4444' }}>
+            {filaRevisao.filter(c => c.semaforo === 'VERMELHO').length}
+          </p>
+        </div>
+        <div className="rounded-xl p-4" style={{ backgroundColor: '#1E2A38' }}>
+          <p className="text-xs mb-1" style={{ color: '#8892A0' }}>Atenção</p>
+          <p className="text-2xl font-bold" style={{ color: '#F59E0B' }}>
+            {filaRevisao.filter(c => c.semaforo === 'AMARELO').length}
+          </p>
+        </div>
+        <div className="rounded-xl p-4" style={{ backgroundColor: '#1E2A38' }}>
+          <p className="text-xs mb-1" style={{ color: '#8892A0' }}>Normal</p>
+          <p className="text-2xl font-bold" style={{ color: '#10B981' }}>
+            {filaRevisao.filter(c => c.semaforo === 'VERDE').length}
+          </p>
+        </div>
+      </div>
+
+      <div className="rounded-xl overflow-hidden" style={{ backgroundColor: '#1E2A38' }}>
+        <table className="w-full text-sm">
+          <thead>
+            <tr style={{ backgroundColor: '#162030' }}>
+              <th className="text-left p-3" style={{ color: '#8892A0' }}>Status</th>
+              <th className="text-left p-3" style={{ color: '#8892A0' }}>Nome</th>
+              <th className="text-left p-3" style={{ color: '#8892A0' }}>Score</th>
+              <th className="text-left p-3" style={{ color: '#8892A0' }}>Renda</th>
+              <th className="text-left p-3" style={{ color: '#8892A0' }}>Valor Solicitado</th>
+              <th className="text-left p-3" style={{ color: '#8892A0' }}>Risco</th>
+              <th className="text-left p-3" style={{ color: '#8892A0' }}>Espera</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filaRevisao.map((cliente, i) => (
+              <tr key={i} style={{ borderTop: '1px solid #2D3A4A' }}>
+                <td className="p-3">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: semaforoCor[cliente.semaforo] }}></div>
+                </td>
+                <td className="p-3 text-white">{cliente.nome}</td>
+                <td className="p-3" style={{ color: '#8892A0' }}>{cliente.score_credito}</td>
+                <td className="p-3" style={{ color: '#8892A0' }}>R$ {cliente.renda_mensal?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                <td className="p-3" style={{ color: '#8892A0' }}>R$ {cliente.valor_solicitado?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                <td className="p-3" style={{ color: semaforoCor[cliente.semaforo] }}>{cliente.probabilidade_risco}</td>
+                <td className="p-3" style={{ color: '#8892A0' }}>{cliente.horas_espera ? cliente.horas_espera.toFixed(1) + 'h' : '-'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+};
+
+const FunilConversao = ({ simulacao }) => {
+  const manual = simulacao.find(s => s.cenario === 'Manual');
+  if (!manual) return null;
+
+  const total = 5000;
+  const atendidos = total - manual.clientes_perdidos;
+  const perdidos = manual.clientes_perdidos;
+
+  const etapas = [
+    { label: 'Solicitações recebidas', valor: total, pct: 100, cor: '#3B82F6' },
+    { label: 'Entram na fila de análise', valor: total, pct: 100, cor: '#8B5CF6' },
+    { label: 'Aguardam analista disponível', valor: Math.round(total * 0.7), pct: 70, cor: '#F59E0B' },
+    { label: 'Clientes que desistem', valor: perdidos, pct: Math.round(perdidos / total * 100), cor: '#EF4444' },
+    { label: 'Análise concluída', valor: atendidos, pct: Math.round(atendidos / total * 100), cor: '#10B981' },
+  ];
+
+  return (
+    <div className="rounded-xl p-5" style={{ backgroundColor: '#1E2A38' }}>
+      <h3 className="text-white font-semibold mb-6">Funil de Conversão — Processo Manual</h3>
+      <div className="flex flex-col items-center gap-2">
+        {etapas.map((etapa, i) => (
+          <div key={i} className="w-full flex flex-col items-center">
+            <div
+              className="flex items-center justify-between px-4 py-2 rounded-lg text-sm text-white"
+              style={{
+                backgroundColor: etapa.cor,
+                width: `${Math.max(etapa.pct, 20)}%`,
+                opacity: 0.85,
+                transition: 'width 0.5s ease'
+              }}
+            >
+              <span>{etapa.label}</span>
+              <span className="font-bold">{etapa.valor.toLocaleString('pt-BR')}</span>
+            </div>
+            {i < etapas.length - 1 && (
+              <div className="text-gray-500 text-xs my-1">▼</div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
   const [activePage, setActivePage] = useState('problema');
   const [metricas, setMetricas] = useState(null);
   const [comparativo, setComparativo] = useState(null);
   const [filaRevisao, setFilaRevisao] = useState([]);
+  const [simulacao, setSimulacao] = useState([]);
 
   useEffect(() => {
     api.metricas().then(setMetricas);
     api.comparativo().then(setComparativo);
     api.filaRevisao().then(setFilaRevisao);
+    api.simulacao().then(setSimulacao);
   }, []);
   const [chatOpen, setChatOpen] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -348,12 +459,14 @@ export default function App() {
 const pages = [
   { id: 'problema', label: 'Problema', color: '#FF6B6B' },
   { id: 'solucao', label: 'Solucao', color: '#3B82F6' },
+  { id: 'fila', label: 'Fila', color: '#F59E0B' },
   { id: 'resultado', label: 'Resultado', color: '#10B981' },
 ];
 
 const pageConfig = {
   problema: { title: 'CENARIO ATUAL: PROCESSO MANUAL', subtitle: 'Analise do processo manual de concessao de credito', color: '#FF6B6B' },
   solucao: { title: 'SOLUCAO: AUTOMACAO INTELIGENTE', subtitle: 'Sistema de ML + Decisao Automatica + Priorizacao', color: '#3B82F6' },
+  fila: { title: 'FILA DE REVISAO PRIORIZADA', subtitle: 'Casos aguardando analise manual ordenados por prioridade', color: '#F59E0B' },
   resultado: { title: 'RESULTADO: IMPACTO DA AUTOMACAO', subtitle: 'Comparativo antes e depois da implementacao', color: '#10B981' },
 };
 
@@ -384,9 +497,10 @@ return (
       <p className="text-sm" style={{ color: '#8892A0' }}>{currentPage.subtitle}</p>
     </div>
 
-    {activePage === 'problema' && <ProblemaPage comparativo={comparativo} />}
+   {activePage === 'problema' && <ProblemaPage comparativo={comparativo} simulacao={simulacao} />}
     {activePage === 'resultado' && <ResultadoPage comparativo={comparativo} />}
     {activePage === 'solucao' && <SolucaoPage metricas={metricas} />}
+    {activePage === 'fila' && <FilaPage filaRevisao={filaRevisao} />}
 
     <button
       onClick={() => setChatOpen(!chatOpen)}

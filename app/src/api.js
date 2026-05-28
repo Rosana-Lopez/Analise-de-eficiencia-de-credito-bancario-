@@ -4,6 +4,7 @@ export const api = {
   metricas:    () => fetch(`${BASE_URL}/dashboard/metricas`).then(r => r.json()),
   comparativo: () => fetch(`${BASE_URL}/dashboard/comparativo`).then(r => r.json()),
   filaRevisao: () => fetch(`${BASE_URL}/dashboard/fila-revisao`).then(r => r.json()),
+  simulacao:   () => fetch(`${BASE_URL}/dashboard/simulacao`).then(r => r.json()),
 
   saudacao: () => fetch(`${BASE_URL}/chatbot/saudacao`, { method: "POST" }).then(r => r.json()),
 
