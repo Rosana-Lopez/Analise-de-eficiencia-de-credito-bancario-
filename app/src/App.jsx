@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MessageCircle, Send, Users, AlertTriangle, Clock, DollarSign, TrendingDown, X, Bot, CheckCircle, XCircle, Search, Zap, Brain, ArrowRight } from 'lucide-react';
+import { api } from './api';
 
 const Gauge = ({ value, max, sublabel, color, percentage }) => {
   const radius = 70;
@@ -367,9 +368,9 @@ export default function App() {
         <p className="text-sm" style={{ color: '#8892A0' }}>{currentPage.subtitle}</p>
       </div>
 
-      {activePage === 'problema' && <ProblemaPage />}
-      {activePage === 'solucao' && <SolucaoPage />}
-      {activePage === 'resultado' && <ResultadoPage />}
+      {activePage === 'problema' && <ProblemaPage comparativo={comparativo} />}
+      {activePage === 'resultado' && <ResultadoPage comparativo={comparativo} />}
+      {activePage === 'solucao' && <SolucaoPage metricas={metricas} />}
 
       <button
         onClick={() => setChatOpen(!chatOpen)}
