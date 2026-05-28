@@ -200,29 +200,29 @@ const ChatMessage = ({ message, isBot }) => (
   </div>
 );
 
-const ProblemaPage = () => (
+const ProblemaPage = ({ comparativo }) => (
   <>
     <div className="grid grid-cols-4 gap-4 mb-6">
-      <MetricCard icon={Users} value="53" label="Analistas Necessarios" color="#FF6B6B" iconBg="rgba(255, 107, 107, 0.2)" />
-      <MetricCard icon={AlertTriangle} value="3.080" label="Clientes Perdidos" color="#FF9F43" iconBg="rgba(255, 159, 67, 0.2)" />
-      <MetricCard icon={Clock} value="1.250h" label="Tempo Operacional" color="#EE5A24" iconBg="rgba(238, 90, 36, 0.2)" />
-      <MetricCard icon={DollarSign} value="R$52Mi" label="Perdas Totais" color="#EA2027" iconBg="rgba(234, 32, 39, 0.2)" />
+      <MetricCard icon={Users} value={comparativo?.manual?.analistas ?? '53'} label="Analistas Necessarios" color="#FF6B6B" iconBg="rgba(255, 107, 107, 0.2)" />
+      <MetricCard icon={AlertTriangle} value={comparativo?.manual?.clientes_perdidos ?? '3.080'} label="Clientes Perdidos" color="#FF9F43" iconBg="rgba(255, 159, 67, 0.2)" />
+      <MetricCard icon={Clock} value={comparativo?.manual?.horas ? `${comparativo.manual.horas}h` : '1.250h'} label="Tempo Operacional" color="#EE5A24" iconBg="rgba(238, 90, 36, 0.2)" />
+      <MetricCard icon={DollarSign} value={comparativo?.manual?.prejuizo_mi ? `R$${comparativo.manual.prejuizo_mi}Mi` : 'R$52Mi'} label="Perdas Totais" color="#EA2027" iconBg="rgba(234, 32, 39, 0.2)" />
     </div>
     <div className="grid grid-cols-2 gap-4 mb-6">
       <div className="rounded-xl p-4" style={{ backgroundColor: '#1E2A38' }}>
         <h3 className="text-white font-semibold mb-1">Capacidade de Analistas</h3>
         <p className="text-xs mb-2" style={{ color: '#8892A0' }}>Necessario vs Disponivel</p>
-        <Gauge value={53} max={20} sublabel="de 20 disponiveis" color="#FF6B6B" percentage="265% ACIMA DA CAPACIDADE" />
+        <Gauge value={comparativo?.manual?.analistas ?? 53} max={20} sublabel="de 20 disponiveis" color="#FF6B6B" percentage="265% ACIMA DA CAPACIDADE" />
       </div>
       <div className="rounded-xl p-4" style={{ backgroundColor: '#1E2A38' }}>
         <h3 className="text-white font-semibold mb-1">Clientes Perdidos por Demora</h3>
         <p className="text-xs mb-2" style={{ color: '#8892A0' }}>Taxa de abandono no processo</p>
-        <Gauge value={3080} max={500} sublabel="clientes/mes" color="#FF9F43" percentage="616% ACIMA DO ACEITAVEL" />
+        <Gauge value={comparativo?.manual?.clientes_perdidos ?? 3080} max={500} sublabel="clientes/mes" color="#FF9F43" percentage="616% ACIMA DO ACEITAVEL" />
       </div>
     </div>
     <LossesBar />
   </>
-);
+);;
 
 const SolucaoPage = () => (
   <>
@@ -298,6 +298,15 @@ const ResultadoPage = () => (
 
 export default function App() {
   const [activePage, setActivePage] = useState('problema');
+  const [metricas, setMetricas] = useState(null);
+  const [comparativo, setComparativo] = useState(null);
+  const [filaRevisao, setFilaRevisao] = useState([]);
+
+useEffect(() => {
+  api.metricas().then(setMetricas);
+  api.comparativo().then(setComparativo);
+  api.filaRevisao().then(setFilaRevisao);
+}, []);
   const [chatOpen, setChatOpen] = useState(false);
   const [messages, setMessages] = useState([
     { text: 'Ola! Sou o assistente de analise de credito. Como posso ajudar?', isBot: true },
